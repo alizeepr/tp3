@@ -3,6 +3,7 @@
 #include <string.h>
 #include "tp3.h"
 
+// O(1)
 T_Livre *creerLivre (char *titre, char *auteur, char *edition) {
     T_Livre* livre = (T_Livre *) malloc(sizeof(T_Livre));
 
@@ -18,6 +19,7 @@ T_Livre *creerLivre (char *titre, char *auteur, char *edition) {
     return livre;
 }
 
+// O(1)
 T_Rayon *creerRayon (char *theme) {
     T_Rayon* rayon = (T_Rayon *) malloc(sizeof(T_Rayon));
 
@@ -31,6 +33,7 @@ T_Rayon *creerRayon (char *theme) {
     return rayon;
 }
 
+// O(1)
 T_Biblio *creerBiblio (char *nom) {
     T_Biblio* biblio = (T_Biblio *) malloc(sizeof(T_Biblio));
 
@@ -43,6 +46,8 @@ T_Biblio *creerBiblio (char *nom) {
     return biblio;
 }
 
+// Dans le meilleur des cas, soit on on ajoute le livre au début de la liste, soit on n'ajoute pas le livre => Omega(1)
+// Dans le pire des cas, on ajoute le livre en dernière position => O(n)
 int ajouterLivreListe(T_Livre *actuel, T_Livre *aAjouter) {
     // Si on est à la fin de la liste, on ajoute le livre en dernière positon
     if (actuel->suivant == NULL) {
@@ -68,6 +73,8 @@ int ajouterLivreListe(T_Livre *actuel, T_Livre *aAjouter) {
     return ajouterLivreListe(actuel->suivant, aAjouter);
 }
 
+// Dans le meilleur des cas, soit on on ajoute le livre au début de la liste, soit on n'ajoute pas le livre => Omega(1)
+// Dans le pire des cas, on ajoute le livre en dernière position => O(n)
 int ajouterLivre(T_Rayon *rayon, T_Livre *aAjouter) {
     int resultat = 0;
 
@@ -103,6 +110,8 @@ int ajouterLivre(T_Rayon *rayon, T_Livre *aAjouter) {
     return resultat;
 }
 
+// Dans le meilleur des cas, soit on on ajoute le rayon au début de la liste, soit on n'ajoute pas le rayon => Omega(1)
+// Dans le pire des cas, on ajoute le rayon en dernière position => O(n)
 int ajouterRayonListe(T_Rayon *actuel, T_Rayon *aAjouter) {
     // Si on est à la fin de la liste, on ajoute le rayon en dernière positon
     if (actuel->suivant == NULL) {
@@ -128,6 +137,8 @@ int ajouterRayonListe(T_Rayon *actuel, T_Rayon *aAjouter) {
     return ajouterRayonListe(actuel->suivant, aAjouter);
 }
 
+// Dans le meilleur des cas, soit on on ajoute le rayon au début de la liste, soit on n'ajoute pas le rayon => Omega(1)
+// Dans le pire des cas, on ajoute le rayon en dernière position => O(n)
 int ajouterRayon(T_Biblio *biblio, T_Rayon *aAjouter) {
     if (biblio->premier == NULL) {
         biblio->premier = aAjouter;
@@ -152,6 +163,7 @@ int ajouterRayon(T_Biblio *biblio, T_Rayon *aAjouter) {
     return ajouterRayonListe(biblio->premier, aAjouter);
 }
 
+// O(n)
 void afficherLivres(T_Livre *livre) {
     printf(
             "| %-40s | %-20s | %-15s | %-5s |\n",
@@ -166,6 +178,7 @@ void afficherLivres(T_Livre *livre) {
     }
 }
 
+// O(n)
 void afficherRayon(T_Rayon *rayon) {
     printf(
             " Rayon %s\n -------------------------------------------------------------------------------------------\n",
@@ -178,6 +191,7 @@ void afficherRayon(T_Rayon *rayon) {
     printf(" -------------------------------------------------------------------------------------------\n");
 }
 
+// O(n)
 void afficherRayons(T_Rayon *rayon) {
     printf("| %-40s | %-20d |\n", rayon->theme_rayon, rayon->nombre_livres);
 
@@ -186,6 +200,7 @@ void afficherRayons(T_Rayon *rayon) {
     }
 }
 
+// O(n)
 void afficherBiblio(T_Biblio *biblio) {
     printf(
             " Bibliotèque %s\n -----------------------------------------------------------------\n",
@@ -198,6 +213,8 @@ void afficherBiblio(T_Biblio *biblio) {
     printf(" -----------------------------------------------------------------\n");
 }
 
+// Dans le meilleur des cas O(1)
+// Dans le pire des cas O(n)
 int trouverEtEmprunterLivre(T_Livre *actuel, char* titreAEmprunter) {
     int comparaison = strcmp(actuel->titre, titreAEmprunter);
 
@@ -225,6 +242,8 @@ int trouverEtEmprunterLivre(T_Livre *actuel, char* titreAEmprunter) {
     return trouverEtEmprunterLivre(actuel->suivant, titreAEmprunter);
 }
 
+// Dans le meilleur des cas O(1)
+// Dans le pire des cas O(n)
 int emprunterLivre(T_Rayon *rayon, char* titre) {
     if (! rayon->premier) {
         return 0;
@@ -233,6 +252,8 @@ int emprunterLivre(T_Rayon *rayon, char* titre) {
     return trouverEtEmprunterLivre(rayon->premier, titre);
 }
 
+// Dans le meilleur des cas O(1)
+// Dans le pire des cas O(n)
 int trouverEtSupprimerLivre(T_Livre *actuel, char* titreASupprimer) {
     if (! actuel->suivant) {
         return 0;
@@ -258,6 +279,8 @@ int trouverEtSupprimerLivre(T_Livre *actuel, char* titreASupprimer) {
     return trouverEtSupprimerLivre(actuel->suivant, titreASupprimer);
 }
 
+// Dans le meilleur des cas O(1)
+// Dans le pire des cas O(n)
 int supprimerLivre(T_Rayon *rayon, char* titre) {
     if (! rayon->premier) {
         return 0;
@@ -283,6 +306,7 @@ int supprimerLivre(T_Rayon *rayon, char* titre) {
     return trouverEtSupprimerLivre(rayon->premier, titre);
 }
 
+// O(n)
 int supprimerLivresListe(T_Livre* actuel)
 {
     if (actuel->suivant) {
@@ -292,6 +316,8 @@ int supprimerLivresListe(T_Livre* actuel)
     free(actuel);
 }
 
+// Dans le meilleur des cas O(1)
+// Dans le pire des cas O(n)
 int trouverEtSupprimerRayon(T_Rayon *actuel, char* themeASupprimer) {
     if (! actuel->suivant) {
         return 0;
@@ -319,6 +345,8 @@ int trouverEtSupprimerRayon(T_Rayon *actuel, char* themeASupprimer) {
     return trouverEtSupprimerRayon(actuel->suivant, themeASupprimer);
 }
 
+// Dans le meilleur des cas O(n)
+// Dans le pire des cas O(n^2)
 int supprimerRayon(T_Biblio *biblio, char* themeASupprimer) {
     if (! biblio->premier) {
         return 0;
@@ -346,6 +374,7 @@ int supprimerRayon(T_Biblio *biblio, char* themeASupprimer) {
     return trouverEtSupprimerRayon(biblio->premier, themeASupprimer);
 }
 
+// O(n)
 void rechercherLivreListe(T_Livre *actuel, char* critereTitre, char* themeRayon) {
     if (strstr(actuel->titre, critereTitre) != NULL) {
         printf(
@@ -363,6 +392,7 @@ void rechercherLivreListe(T_Livre *actuel, char* critereTitre, char* themeRayon)
     }
 }
 
+// O(n)
 void rechercherLivreRayons(T_Rayon *rayon, char* critereTitre) {
     rechercherLivreListe(rayon->premier, critereTitre, rayon->theme_rayon);
 
@@ -371,6 +401,7 @@ void rechercherLivreRayons(T_Rayon *rayon, char* critereTitre) {
     }
 }
 
+// O(n^2)
 void rechercherLivres(T_Biblio *biblio, char* critereTitre) {
     printf(
             " Recherche: %s\n"
